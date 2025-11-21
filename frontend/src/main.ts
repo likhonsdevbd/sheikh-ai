@@ -3,12 +3,18 @@ import { createPinia } from 'pinia'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css'
 import './styles/global.css'
+import './styles/enhanced-ai.css'
 
 import App from './App.vue'
 import router from './router'
 
-// RICH paradigm - Ant Design's AI interface solution
-// This represents the unified approach to AI user experiences
+// SHEIKH AI SYSTEM - Enhanced with Modern AI SDK Integration
+// Features:
+// - AG-UI Protocol for bi-directional agent-user communication
+// - CopilotKit for enhanced AI interaction experience  
+// - Google Generative AI with Gemini 3 Pro Preview
+// - AI SDK Providers for multiple AI backends
+// - Accessible, fast, delightful UI following WCAG guidelines
 
 const app = createApp(App)
 

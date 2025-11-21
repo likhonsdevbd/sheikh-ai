@@ -1,6 +1,46 @@
-# Sheikh - Intelligent Conversation Agent System
+# Sheikh AI Assistant - Enhanced with Modern AI SDK Integration
 
-Sheikh is an intelligent conversation agent system built with FastAPI and OpenAI API, featuring Domain-Driven Design (DDD) architecture for robust, scalable, and maintainable code.
+Sheikh is a cutting-edge intelligent conversation agent system enhanced with AI SDK providers, Google Generative AI (Gemini 3 Pro Preview), AG-UI Protocol, and CopilotKit integration. Built with Domain-Driven Design (DDD) architecture for robust, scalable, and maintainable code.
+
+## ✨ What's New in v2.0
+
+### 🤖 AI SDK Integration
+- **Google Generative AI** with Gemini 3 Pro Preview
+- **Advanced Reasoning** with configurable thinking levels
+- **Multi-modal AI** (text, images, files, documents)
+- **Tool Calling** and function execution
+- **Web Search** with Google Search grounding
+- **Image Generation** using Imagen 3.0
+- **Structured Data** output with JSON schemas
+
+### 🌐 AG-UI Protocol & CopilotKit
+- Bi-directional agent-user communication
+- Real-time streaming responses
+- Enhanced user experience with rich interactions
+- Production-ready AI components
+- Built-in security and prompt injection protection
+
+### ♿ Accessibility & UX (WCAG Compliant)
+- Full keyboard navigation support
+- Screen reader compatibility
+- High contrast mode support
+- Mobile-optimized touch targets (≥44px)
+- Focus management and ARIA compliance
+
+## 🚀 Architecture Overview
+
+### Backend (FastAPI + DDD + AI SDK)
+- **Domain Layer**: Core business logic and entities
+- **Application Layer**: Use cases and AI services
+- **Infrastructure Layer**: Database, AI providers, and adapters
+- **Interface Layer**: Enhanced API with AI SDK integration
+
+### Frontend (Vue 3 + Enhanced AI Interface)
+- **Three Chat Modes**: Traditional, Enhanced, and AI SDK Interface
+- **Accessibility-first design** following WCAG guidelines
+- **Real-time streaming** with AI responses
+- **Multi-modal support** for files and images
+- **Advanced UI components** with rich interactions
 
 ## Architecture Overview
 
@@ -22,14 +62,29 @@ Sheikh is an intelligent conversation agent system built with FastAPI and OpenAI
 - Shell command execution
 - System monitoring and management
 
-## Features
+## Core Features
 
-- 🧠 **Intelligent Dialogue**: Advanced conversation processing with OpenAI API
+### 🤖 AI-Powered Capabilities
+- 🧠 **Advanced Reasoning**: Gemini 3 Pro Preview with configurable thinking levels
+- 💻 **Code Generation**: Multi-language code analysis and generation
+- 🔍 **Web Research**: Google Search grounding with sources and citations
+- 📄 **File Analysis**: Multi-modal document, image, and code analysis
+- 🎨 **Image Generation**: Text-to-image with Imagen 3.0
+- 📊 **Structured Data**: JSON schema-based structured responses
+
+### 🛠️ System Operations
 - 📁 **File Operations**: Secure file management and manipulation
 - 🐚 **Shell Execution**: Safe command execution environment
 - 🌐 **Browser Automation**: Automated web browsing and interaction
 - 🏗️ **DDD Architecture**: Clean, maintainable codebase structure
-- 🔒 **Security**: Robust security measures for all operations
+- 🔒 **Security**: Robust security measures and content safety filtering
+
+### 🎨 User Interface
+- 📱 **Responsive Design**: Mobile-first, accessibility-compliant interface
+- ⌨️ **Keyboard Navigation**: Full keyboard support for all features
+- 🎯 **Three Chat Modes**: Traditional, Enhanced AI, and AI SDK Interface
+- ⚡ **Real-time Streaming**: Live response updates and progress indicators
+- 🎪 **Rich Interactions**: Dynamic UI components and action buttons
 
 ## Project Structure
 

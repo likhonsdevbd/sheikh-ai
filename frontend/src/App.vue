@@ -95,13 +95,14 @@
             <div class="content-wrapper">
               <!-- Enhanced Chat with CopilotKit Integration -->
               <div class="enhanced-chat-container" v-if="useEnhancedChat">
-                <!-- Toggle between traditional and enhanced chat -->
+                <!-- Toggle between different chat modes -->
                 <div class="chat-mode-toggle">
                   <a-segmented 
                     v-model:value="chatMode" 
                     :options="[
                       { label: 'Traditional Chat', value: 'traditional' },
-                      { label: 'Enhanced AI', value: 'enhanced' }
+                      { label: 'Enhanced AI', value: 'enhanced' },
+                      { label: 'AI SDK Interface', value: 'sdk' }
                     ]"
                     @change="handleModeChange"
                   />
@@ -246,6 +247,11 @@
                     </a-button-group>
                   </div>
                 </div>
+              </div>
+
+              <!-- AI SDK Interface -->
+              <div class="ai-sdk-interface" v-if="chatMode === 'sdk'">
+                <EnhancedAIInterface :current-provider="'google'" />
               </div>
 
               <!-- Welcome Screen -->
@@ -441,6 +447,9 @@ import { useChatStore } from './stores/chat'
 import { useSessionStore } from './stores/session'
 import { useSettingsStore } from './stores/settings'
 import MarkdownRenderer from './components/MarkdownRenderer.vue'
+import EnhancedAIInterface from './components/EnhancedAIInterface.vue'
+import CapabilityShowcase from './components/CapabilityShowcase.vue'
+import CodePreview from './components/CodePreview.vue'
 
 // Stores
 const chatStore = useChatStore()

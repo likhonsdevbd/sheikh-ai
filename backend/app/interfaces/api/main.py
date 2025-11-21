@@ -1,6 +1,7 @@
 """
 Sheikh Backend - FastAPI Application
 Main entry point for the intelligent conversation agent system
+Enhanced with AI SDK Providers Integration
 """
 
 from fastapi import FastAPI, Depends
@@ -9,6 +10,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from contextlib import asynccontextmanager
 
 from .routers import conversations, files, shell, browser
+from ...services.ai_service import router as ai_router
 from .dependencies import get_conversation_service, get_file_service
 from ...infrastructure.config import Settings
 
@@ -26,8 +28,8 @@ async def lifespan(app: FastAPI):
 # Create FastAPI application
 app = FastAPI(
     title="Sheikh Intelligent Conversation Agent",
-    description="Advanced conversation agent with file operations, shell execution, and browser automation",
-    version="1.0.0",
+    description="Advanced conversation agent with AI SDK integration, file operations, shell execution, and browser automation. Powered by Gemini 3 Pro Preview and modern AI protocols.",
+    version="2.0.0",
     lifespan=lifespan
 )
 
@@ -70,14 +72,35 @@ app.include_router(
     tags=["browser"]
 )
 
+# AI SDK Integration routes
+app.include_router(
+    ai_router,
+    prefix="/api/ai",
+    tags=["AI SDK"]
+)
+
 
 @app.get("/")
 async def root():
     """Root endpoint"""
     return {
         "message": "Sheikh Intelligent Conversation Agent API",
-        "version": "1.0.0",
-        "status": "running"
+        "version": "2.0.0",
+        "status": "running",
+        "features": [
+            "AI SDK Integration",
+            "Google Generative AI (Gemini 3 Pro Preview)",
+            "AG-UI Protocol",
+            "CopilotKit Integration",
+            "Advanced Reasoning",
+            "Multi-modal AI",
+            "Tool Calling",
+            "File Analysis",
+            "Web Search with Grounding",
+            "Image Generation",
+            "Structured Data Output"
+        ],
+        "providers": ["google", "openai"]
     }
 
 
@@ -87,7 +110,14 @@ async def health_check():
     return {
         "status": "healthy",
         "service": "sheikh-backend",
-        "version": "1.0.0"
+        "version": "2.0.0",
+        "features": {
+            "ai_sdk": "available",
+            "google_ai": "configured",
+            "ag_ui_protocol": "enabled",
+            "copilotkit": "enabled",
+            "enhanced_reasoning": "gemini-3-pro-preview"
+        }
     }
 
 
