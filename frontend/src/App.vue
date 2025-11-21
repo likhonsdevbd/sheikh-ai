@@ -93,8 +93,22 @@
           <!-- Main Content Area -->
           <a-layout-content class="main-content">
             <div class="content-wrapper">
-              <!-- Chat Interface -->
-              <div class="chat-area" v-if="currentSessionId">
+              <!-- Enhanced Chat with CopilotKit Integration -->
+              <div class="enhanced-chat-container" v-if="useEnhancedChat">
+                <!-- Toggle between traditional and enhanced chat -->
+                <div class="chat-mode-toggle">
+                  <a-segmented 
+                    v-model:value="chatMode" 
+                    :options="[
+                      { label: 'Traditional Chat', value: 'traditional' },
+                      { label: 'Enhanced AI', value: 'enhanced' }
+                    ]"
+                    @change="handleModeChange"
+                  />
+                </div>
+                
+                <!-- Traditional Chat Interface -->
+                <div class="chat-area" v-if="currentSessionId && chatMode === 'traditional'">
                 <div class="messages-container" ref="messagesContainer">
                   <div v-for="message in currentMessages" :key="message.id" class="message-wrapper">
                     <a-card
@@ -129,7 +143,7 @@
                   </div>
                 </div>
 
-                <!-- Chat Input -->
+                <!-- Enhanced Chat Input with Rich Features -->
                 <div class="chat-input-area">
                   <a-input
                     v-model:value="currentMessage"
@@ -145,7 +159,87 @@
                         <template #icon><ToolOutlined /></template>
                         Tools
                       </a-button>
+                      <a-button @click="toggleGenerativeUI" :type="showGenerativeUI ? 'primary' : 'default'">
+                        <template #icon><AppstoreOutlined /></template>
+                        Gen UI
+                      </a-button>
                       <a-button @click="sendMessage" :loading="isStreaming" :disabled="!currentMessage.trim()">
+                        <template #icon><SendOutlined /></template>
+                        Send
+                      </a-button>
+                    </a-button-group>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enhanced AI Chat with CopilotKit -->
+              <div class="enhanced-ai-chat" v-if="chatMode === 'enhanced'">
+                <div class="copilot-header">
+                  <h3>Enhanced AI Assistant</h3>
+                  <p>Powered by CopilotKit & AG-UI Protocol</p>
+                </div>
+                <div class="rich-interactions">
+                  <!-- Streaming Response Display -->
+                  <div class="streaming-response" v-if="isStreamingEnhanced">
+                    <a-spin />
+                    <span>AI is processing your request...</span>
+                  </div>
+                  
+                  <!-- Generative UI Components -->
+                  <div v-if="generativeUIComponents.length > 0" class="generative-ui-section">
+                    <h4>AI-Generated Interface</h4>
+                    <div v-for="(component, index) in generativeUIComponents" :key="index" class="ui-component">
+                      <component :is="getComponentName(component.type)" :data="component" />
+                    </div>
+                  </div>
+                  
+                  <!-- Available Actions -->
+                  <div v-if="availableActions.length > 0" class="actions-section">
+                    <h4>Available Actions</h4>
+                    <div class="action-grid">
+                      <a-card 
+                        v-for="action in availableActions" 
+                        :key="action.name"
+                        :hoverable="true"
+                        class="action-card"
+                        @click="executeAction(action)"
+                      >
+                        <a-card-meta 
+                          :title="action.name"
+                          :description="action.description"
+                        >
+                          <template #avatar>
+                            <component :is="action.icon || 'ApiOutlined'" />
+                          </template>
+                        </a-card-meta>
+                      </a-card>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Enhanced Input -->
+                <div class="enhanced-input-area">
+                  <a-input
+                    v-model:value="enhancedInput"
+                    placeholder="Ask Sheikh to help with code, research, analysis..."
+                    size="large"
+                    @keydown="handleEnhancedKeyDown"
+                  />
+                  <div class="enhanced-input-actions">
+                    <a-button-group>
+                      <a-button @click="generateCode">
+                        <template #icon><CodeOutlined /></template>
+                        Generate Code
+                      </a-button>
+                      <a-button @click="performWebSearch">
+                        <template #icon><SearchOutlined /></template>
+                        Web Search
+                      </a-button>
+                      <a-button @click="analyzeData">
+                        <template #icon><BarChartOutlined /></template>
+                        Analyze Data
+                      </a-button>
+                      <a-button type="primary" @click="sendEnhancedMessage" :disabled="!enhancedInput.trim()">
                         <template #icon><SendOutlined /></template>
                         Send
                       </a-button>
@@ -341,7 +435,7 @@ import {
   RobotOutlined, PlusOutlined, SettingOutlined, SearchOutlined,
   MessageOutlined, MoreOutlined, EditOutlined, PauseOutlined, DeleteOutlined,
   UserOutlined, ToolOutlined, SendOutlined, FolderOutlined, FileOutlined,
-  GlobalOutlined
+  GlobalOutlined, AppstoreOutlined, CodeOutlined, BarChartOutlined, ApiOutlined
 } from '@ant-design/icons-vue'
 import { useChatStore } from './stores/chat'
 import { useSessionStore } from './stores/session'
@@ -364,6 +458,15 @@ const showSettings = ref(false)
 const currentMessage = ref('')
 const isStreaming = ref(false)
 const messagesContainer = ref<HTMLElement>()
+
+// Enhanced Chat Mode
+const useEnhancedChat = ref(true)
+const chatMode = ref('enhanced')
+const enhancedInput = ref('')
+const isStreamingEnhanced = ref(false)
+const showGenerativeUI = ref(false)
+const generativeUIComponents = ref<any[]>([])
+const availableActions = ref<any[]>([])
 
 // Terminal
 const terminalCommand = ref('')
@@ -637,6 +740,162 @@ const renderSearchResult = (item: any) => {
       />
     </a-list-item>
   )
+}
+
+// Enhanced Chat Methods
+const handleModeChange = (value: string) => {
+  chatMode.value = value
+  message.info(`Switched to ${value} chat mode`)
+}
+
+const toggleGenerativeUI = () => {
+  showGenerativeUI.value = !showGenerativeUI.value
+  if (showGenerativeUI.value) {
+    // Simulate generating UI components
+    generateUIComponents()
+  }
+}
+
+const generateUIComponents = () => {
+  generativeUIComponents.value = [
+    {
+      type: 'capability-showcase',
+      title: 'Sheikh Capabilities',
+      capabilities: [
+        {
+          name: 'Code Generation',
+          description: 'Generate and review code in multiple languages',
+          icon: 'CodeOutlined'
+        },
+        {
+          name: 'Web Research',
+          description: 'Search and analyze information from the web',
+          icon: 'SearchOutlined'
+        },
+        {
+          name: 'Data Analysis',
+          description: 'Analyze datasets and generate insights',
+          icon: 'BarChartOutlined'
+        },
+        {
+          name: 'Browser Automation',
+          description: 'Automate web browsing and interaction',
+          icon: 'GlobalOutlined'
+        }
+      ]
+    }
+  ]
+}
+
+const sendEnhancedMessage = async () => {
+  if (!enhancedInput.value.trim()) return
+
+  const message = enhancedInput.value.trim()
+  enhancedInput.value = ''
+  isStreamingEnhanced.value = true
+
+  try {
+    // Simulate enhanced AI processing
+    await simulateEnhancedAIResponse(message)
+  } catch (error) {
+    message.error('Failed to process enhanced request')
+  } finally {
+    isStreamingEnhanced.value = false
+  }
+}
+
+const simulateEnhancedAIResponse = async (input: string) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+  
+  // Determine response type based on input
+  if (input.toLowerCase().includes('code')) {
+    availableActions.value = [
+      {
+        name: 'generateCode',
+        description: 'Generate code for your request',
+        icon: 'CodeOutlined'
+      },
+      {
+        name: 'reviewCode',
+        description: 'Review existing code',
+        icon: 'EyeOutlined'
+      }
+    ]
+    
+    generativeUIComponents.value = [
+      {
+        type: 'code-preview',
+        language: 'javascript',
+        code: `function hello() {
+  console.log("Hello from Sheikh!");
+  return "AI-powered code generation";
+}`
+      }
+    ]
+  } else if (input.toLowerCase().includes('search')) {
+    availableActions.value = [
+      {
+        name: 'webSearch',
+        description: 'Perform comprehensive web search',
+        icon: 'SearchOutlined'
+      },
+      {
+        name: 'extractContent',
+        description: 'Extract content from web pages',
+        icon: 'DownloadOutlined'
+      }
+    ]
+  } else {
+    availableActions.value = [
+      {
+        name: 'generalChat',
+        description: 'Continue the conversation',
+        icon: 'MessageOutlined'
+      },
+      {
+        name: 'switchMode',
+        description: 'Switch to different capabilities',
+        icon: 'SwapOutlined'
+      }
+    ]
+  }
+}
+
+const handleEnhancedKeyDown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault()
+    sendEnhancedMessage()
+  }
+}
+
+const executeAction = (action: any) => {
+  message.info(`Executing action: ${action.name}`)
+  // Implement action execution logic
+}
+
+const getComponentName = (type: string) => {
+  const componentMap: Record<string, string> = {
+    'capability-showcase': 'CapabilityShowcase',
+    'code-preview': 'CodePreview',
+    'data-visualization': 'DataVisualization',
+    'web-results': 'WebResults'
+  }
+  return componentMap[type] || 'div'
+}
+
+const generateCode = () => {
+  enhancedInput.value = "Generate Python code for data analysis"
+  sendEnhancedMessage()
+}
+
+const performWebSearch = () => {
+  enhancedInput.value = "Search for latest AI research papers"
+  sendEnhancedMessage()
+}
+
+const analyzeData = () => {
+  enhancedInput.value = "Help me analyze this dataset"
+  sendEnhancedMessage()
 }
 
 // Load initial data
