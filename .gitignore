@@ -887,36 +887,11 @@
 **/*.zip
 
 # ==============================================================================
-# PROJECT SPECIFIC - SHEIKH AI
+# PROJECT SPECIFIC
 # ==============================================================================
 # Add your project-specific ignores here
 # workspace/
 # data/
 # uploads/
 # downloads/
-
-# Sheikh AI specific
-uploads/
-browser/user_data/
-*.db
-sheikh.db
-*.sqlite
-*.sqlite3
-sheikh.db-*
-
-# Environment files (keep template but ignore actual keys)
-.env.local
-.env.production
-backend/.env
-frontend/.env
-
-# Generated files
-*.generated.*
-generated/
-
-# Test outputs
-test-results/
-test-reports/
-junit.xml
-test-*.xml
 
