@@ -740,16 +740,7 @@ const performWebSearch = async () => {
   }
 }
 
-const renderSearchResult = (item: any) => {
-  return (
-    <a-list-item>
-      <a-list-item-meta
-        title={item.title}
-        description={item.snippet}
-      />
-    </a-list-item>
-  )
-}
+
 
 // Enhanced Chat Methods
 const handleModeChange = (value: string) => {
@@ -894,11 +885,6 @@ const getComponentName = (type: string) => {
 
 const generateCode = () => {
   enhancedInput.value = "Generate Python code for data analysis"
-  sendEnhancedMessage()
-}
-
-const performWebSearch = () => {
-  enhancedInput.value = "Search for latest AI research papers"
   sendEnhancedMessage()
 }
 

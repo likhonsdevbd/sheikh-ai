@@ -25,14 +25,6 @@ tiktoken==0.5.2
 
 # AI SDK Providers - Google Generative AI
 google-generativeai==0.8.0
-google-generativeai-generators==0.8.0
-google-generativeai-protocol==0.5.0
-google-generativeai-tools==0.8.0
-
-# Additional AI SDK Dependencies
-google-generativeai-text==0.8.0
-google-generativeai-chat==0.8.0
-google-generativeai-discuss==0.8.0
 
 # Optional: Other AI providers
 # anthropic==0.25.0  # For Claude integration
