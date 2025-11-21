@@ -1,0 +1,68 @@
+# Sheikh Backend Dependencies
+# Intelligent Conversation Agent System
+
+# Core FastAPI and ASGI
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# HTTP Client and Requests
+httpx==0.25.2
+aiohttp==3.9.0
+
+# Database and ORM
+sqlalchemy==2.0.23
+alembic==1.13.0
+aiosqlite==0.19.0
+
+# Data Processing and Serialization
+pydantic==2.5.0
+pydantic-settings==2.1.0
+python-multipart==0.0.6
+
+# AI and OpenAI Integration
+openai==1.3.5
+tiktoken==0.5.2
+
+# File Operations
+aiofiles==23.2.1
+pathlib2==2.3.7
+
+# Shell and Process Management
+psutil==5.9.6
+pexpect==4.9.0
+
+# Browser Automation
+playwright==1.40.0
+selenium==4.15.2
+
+# WebSocket Support
+websockets==12.0
+
+# Configuration and Environment
+python-dotenv==1.0.0
+click==8.1.7
+
+# Logging and Monitoring
+structlog==23.2.0
+rich==13.7.0
+
+# Security and Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-httpx==0.27.0
+
+# Development Tools
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.4.7
+mkdocs-mermaid2-plugin==1.1.1
