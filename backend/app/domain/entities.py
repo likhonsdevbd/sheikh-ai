@@ -5,7 +5,7 @@ Domain entities for the Sheikh conversation system
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
-from ..value_objects import (
+from .value_objects import (
     MessageId, ConversationId, UserId, Content, Role, Timestamp,
     Status, Command, FilePath, Url
 )

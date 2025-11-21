@@ -49,25 +49,25 @@ app.add_middleware(
 
 # Include routers
 app.include_router(
-    conversations.router,
+    conversations,
     prefix="/api/conversations",
     tags=["conversations"]
 )
 
 app.include_router(
-    files.router,
+    files,
     prefix="/api/files",
     tags=["files"]
 )
 
 app.include_router(
-    shell.router,
+    shell,
     prefix="/api/shell",
     tags=["shell"]
 )
 
 app.include_router(
-    browser.router,
+    browser,
     prefix="/api/browser",
     tags=["browser"]
 )

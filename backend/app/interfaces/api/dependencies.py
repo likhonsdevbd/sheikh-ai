@@ -2,10 +2,10 @@
 API dependencies for dependency injection
 """
 
-from ..application.services import (
+from ...application.services import (
     ConversationApplicationService, ShellApplicationService, FileApplicationService
 )
-from ..infrastructure.services import (
+from ...infrastructure.services import (
     ConversationRepositoryService, ShellToolService, 
     SSEStreamingService, EventManagementService,
     FileConversationRepository

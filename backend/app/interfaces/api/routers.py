@@ -53,11 +53,15 @@ def get_file_service() -> FileApplicationService:
     return FileApplicationService(domain_service, tool_service)
 
 
-# Create router
-router = APIRouter()
+# Create separate routers for different functionalities
+conversations = APIRouter()
+files = APIRouter() 
+shell = APIRouter()
+browser = APIRouter()
 
-
-@router.put("/sessions")
+# Add routes to respective routers
+# Conversations router
+@conversations.put("/sessions")
 async def create_session(
     conversation_service: ConversationApplicationService = Depends(get_conversation_service)
 ) -> Dict[str, Any]:
@@ -66,7 +70,7 @@ async def create_session(
     return result
 
 
-@router.get("/sessions/{session_id}")
+@conversations.get("/sessions/{session_id}")
 async def get_session(
     session_id: str,
     conversation_service: ConversationApplicationService = Depends(get_conversation_service)
@@ -75,7 +79,7 @@ async def get_session(
     return await conversation_service.get_session(session_id)
 
 
-@router.get("/sessions")
+@conversations.get("/sessions")
 async def list_sessions(
     conversation_service: ConversationApplicationService = Depends(get_conversation_service)
 ) -> Dict[str, Any]:
@@ -83,7 +87,7 @@ async def list_sessions(
     return await conversation_service.list_sessions()
 
 
-@router.delete("/sessions/{session_id}")
+@conversations.delete("/sessions/{session_id}")
 async def delete_session(
     session_id: str,
     conversation_service: ConversationApplicationService = Depends(get_conversation_service)
@@ -92,7 +96,7 @@ async def delete_session(
     return await conversation_service.delete_session(session_id)
 
 
-@router.post("/sessions/{session_id}/stop")
+@conversations.post("/sessions/{session_id}/stop")
 async def stop_session(
     session_id: str,
     conversation_service: ConversationApplicationService = Depends(get_conversation_service)
@@ -101,7 +105,7 @@ async def stop_session(
     return await conversation_service.stop_session(session_id)
 
 
-@router.post("/sessions/{session_id}/chat")
+@conversations.post("/sessions/{session_id}/chat")
 async def chat_with_session(
     session_id: str,
     request: Dict[str, Any],
@@ -151,7 +155,8 @@ async def chat_with_session(
     )
 
 
-@router.post("/sessions/{session_id}/shell")
+# Shell operations router
+@shell.post("/sessions/{session_id}/shell")
 async def view_shell_session(
     session_id: str,
     request: Dict[str, Any],
@@ -166,7 +171,8 @@ async def view_shell_session(
     return await shell_service.view_shell_session(session_id, shell_session_id)
 
 
-@router.post("/sessions/{session_id}/file")
+# File operations router  
+@files.post("/sessions/{session_id}/file")
 async def view_file_content(
     session_id: str,
     request: Dict[str, Any],
@@ -181,7 +187,8 @@ async def view_file_content(
     return await file_service.view_file_content(session_id, file_path)
 
 
-@router.websocket("/sessions/{session_id}/vnc")
+# Browser operations router
+@browser.websocket("/sessions/{session_id}/vnc")
 async def vnc_websocket(
     session_id: str,
     websocket: WebSocket
@@ -229,3 +236,12 @@ async def vnc_websocket(
             "message": str(e)
         }))
         await websocket.close()
+
+
+# Export the routers for use in main.py
+__all__ = [
+    "conversations",
+    "files", 
+    "shell",
+    "browser"
+]
